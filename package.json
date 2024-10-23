@@ -1,33 +1,58 @@
 {
-  "name": "blogforge",
+  "name": "blogforge-api",
   "version": "1.0.0",
-  "description": "A RESTful API for Modern Blogging Platforms",
-  "main": "index.js",
+  "description": "A RESTful API for a blogging platform",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-		"server": "node src/server.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest --detectOpenHandles",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/SALAH-NAME/BlogForge.git"
-  },
-  "keywords": [],
+  "keywords": [
+    "blog",
+    "api",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/SALAH-NAME/BlogForge/issues"
-  },
-  "homepage": "https://github.com/SALAH-NAME/BlogForge#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.1",
-    "helmet": "^8.0.0",
-    "mongoose": "^8.7.2"
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.1",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "eslint": "^9.13.0",
-    "nodemon": "^3.1.7",
-    "prettier": "^3.3.3"
+    "@types/jest": "^29.5.8",
+    "eslint": "^8.53.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-jest": "^27.6.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "jest": "^29.7.0",
+    "mongodb-memory-server": "^9.1.1",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.1.0",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup.js"
+    ]
   }
 }
