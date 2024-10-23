@@ -1,0 +1,33 @@
+{
+  "name": "blogforge",
+  "version": "1.0.0",
+  "description": "A RESTful API for Modern Blogging Platforms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+		"server": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SALAH-NAME/BlogForge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SALAH-NAME/BlogForge/issues"
+  },
+  "homepage": "https://github.com/SALAH-NAME/BlogForge#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0",
+    "mongoose": "^8.7.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.13.0",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3"
+  }
+}
