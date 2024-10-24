@@ -3,6 +3,10 @@ const cors = require('cors');
 const helmet = require('helmet');
 const connectDB = require('./config/database');
 const authRoutes = require('./routes/auth');
+const postRoutes = require('./routes/posts');
+const errorHandler = require('./middleware/errorHandler');
+
+
 require('dotenv').config();
 
 const app = express();
@@ -21,6 +25,8 @@ app.listen(PORT, () => {
 connectDB();
 
 app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
 
+app.use(errorHandler);
 
 module.exports = app;
