@@ -1,3 +1,4 @@
+// tests/posts.test.js
 const request = require('supertest');
 const app = require('../server');
 const Post = require('../models/Post');

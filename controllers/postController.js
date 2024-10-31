@@ -1,3 +1,4 @@
+// controlleres/postController.js
 const Post = require('../models/Post');
 
 exports.getPosts = async (req, res) => {

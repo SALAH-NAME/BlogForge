@@ -1,3 +1,4 @@
+// controlleres/commentController.js
 const Comment = require('../models/Comment');
 
 exports.createComment = async (req, res) => {

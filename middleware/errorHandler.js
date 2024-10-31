@@ -1,3 +1,4 @@
+// middleware/errorHandler.js
 const logger = require('../utils/logger');
 
 // Custom error class
