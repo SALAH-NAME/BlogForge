@@ -24,6 +24,20 @@ const postSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  tags: [String],
+  visibility: {
+    type: String,
+    enum: ['public', 'followers', 'private'],
+    default: 'public'
+  },
+  views: {
+    type: Number,
+    default: 0
+  },
+  shareCount: {
+    type: Number,
+    default: 0
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -32,6 +46,12 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   }
+});
+
+postSchema.index({ 
+  title: 'text', 
+  content: 'text',
+  tags: 'text' 
 });
 
 module.exports = mongoose.model('Post', postSchema);

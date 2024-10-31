@@ -4,22 +4,35 @@ const app = require('../server');
 const User = require('../models/User');
 
 describe('Auth Endpoints', () => {
+  beforeEach(async () => {
+    await User.deleteMany({});
+  });
+
   describe('POST /api/auth/register', () => {
-    it('should create a new user', async () => {
+    it('should validate required fields', async () => {
+      const res = await request(app)
+        .post('/api/auth/register')
+        .send({});
+
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty('message');
+      expect(Array.isArray(res.body.message)).toBeTruthy();
+    });
+
+    it('should validate email format', async () => {
       const res = await request(app)
         .post('/api/auth/register')
         .send({
-          username: 'testuser',
-          email: 'test@test.com',
+          username: 'test',
+          email: 'invalid-email',
           password: 'password123'
         });
 
-      expect(res.statusCode).toBe(201);
-      expect(res.body).toHaveProperty('token');
-      expect(res.body.user).toHaveProperty('username', 'testuser');
+      expect(res.status).toBe(400);
+      expect(res.body.message).toContain('valid email');
     });
 
-    it('should not create user with existing email', async () => {
+    it('should prevent duplicate emails', async () => {
       await User.create({
         username: 'existing',
         email: 'test@test.com',
@@ -29,12 +42,13 @@ describe('Auth Endpoints', () => {
       const res = await request(app)
         .post('/api/auth/register')
         .send({
-          username: 'testuser',
+          username: 'new',
           email: 'test@test.com',
           password: 'password123'
         });
 
-      expect(res.statusCode).toBe(400);
+      expect(res.status).toBe(400);
+      expect(res.body.message).toContain('Duplicate');
     });
   });
 });

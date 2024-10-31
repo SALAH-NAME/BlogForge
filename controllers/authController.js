@@ -26,20 +26,49 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
     
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+    // Input validation
+    if (!email || !password) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Please provide email and password'
+      });
     }
+
+    // Find user and explicitly select password
+    const user = await User.findOne({ email }).select('+password');
     
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Invalid credentials'
+      });
     }
-    
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-    res.json({ token, user: { id: user._id, username: user.username, email } });
+
+    // Update last login
+    user.lastLogin = Date.now();
+    await user.save({ validateBeforeSave: false });
+
+    // Generate token
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    );
+
+    // Remove password from output
+    user.password = undefined;
+
+    res.json({
+      status: 'success',
+      token,
+      user
+    });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({
+      status: 'error',
+      message: 'Error logging in',
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 };
