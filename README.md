@@ -1,6 +1,7 @@
 # Social Media API
 
-BlogForge RESTful API for a blog built with Node.js, Express, and MongoDB. This API supports user authentication, post management, commenting, following system, and more.
+BlogForge API is a robust, scalable RESTful API designed to power modern blogging platforms.
+This API supports user authentication, post management, commenting, following system, and more.
 
 ## 🚀 Features
 
