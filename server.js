@@ -10,9 +10,7 @@ const userRoutes = require('./routes/users');
 const commentRoutes = require('./routes/comments');
 const helmet = require('helmet');
 const rateLimit = require('./middleware/rateLimit');
-// const securityMiddleware = require('./middleware/security');
 const { applySecurityMiddleware } = require('./middleware/security');
-// const followRoutes = require('./routes/follow');
 
 
 
@@ -29,7 +27,6 @@ app.use(express.json());
 app.use(helmet());
 app.use('/api/auth', rateLimit.authLimiter);
 app.use('/api', rateLimit.apiLimiter);
-// app.use(...securityMiddleware);
 applySecurityMiddleware(app);
 
 // Routes
@@ -37,7 +34,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/comments', commentRoutes);
-// app.use('/api/follow', followRoutes);
 
 
 
