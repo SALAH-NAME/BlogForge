@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // controlleres/postController.js
 const Post = require('../models/Post');
 
@@ -94,5 +95,69 @@ exports.likePost = async (req, res) => {
     res.json(post);
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+};
+
+exports.searchPosts = async (req, res) => {
+  try {
+    const { q, tags, author, dateFrom, dateTo, sort } = req.query;
+    let query = {};
+
+    // Text search
+    if (q) {
+      query.$text = { $search: q };
+    }
+
+    // Tags filter
+    if (tags) {
+      query.tags = { $all: tags.split(',') };
+    }
+
+    // Author filter
+    if (author) {
+      const authorUser = await User.findOne({ username: author });
+      if (authorUser) {
+        query.author = authorUser._id;
+      }
+    }
+
+    // Date range filter
+    if (dateFrom || dateTo) {
+      query.createdAt = {};
+      if (dateFrom) query.createdAt.$gte = new Date(dateFrom);
+      if (dateTo) query.createdAt.$lte = new Date(dateTo);
+    }
+
+    // Build sort options
+    let sortOptions = {};
+    switch (sort) {
+    case 'recent':
+      sortOptions = { createdAt: -1 };
+      break;
+    case 'popular':
+      sortOptions = { likesCount: -1 };
+      break;
+    case 'views':
+      sortOptions = { views: -1 };
+      break;
+    default:
+      sortOptions = { createdAt: -1 };
+    }
+
+    const posts = await Post.find(query)
+      .sort(sortOptions)
+      .populate('author', 'username')
+      .limit(20);
+
+    res.status(200).json({
+      status: 'success',
+      results: posts.length,
+      data: posts
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'error',
+      message: err.message
+    });
   }
 };

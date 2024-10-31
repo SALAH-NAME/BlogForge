@@ -12,6 +12,8 @@ const helmet = require('helmet');
 const rateLimit = require('./middleware/rateLimit');
 // const securityMiddleware = require('./middleware/security');
 const { applySecurityMiddleware } = require('./middleware/security');
+// const followRoutes = require('./routes/follow');
+
 
 
 const app = express();
@@ -35,6 +37,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/comments', commentRoutes);
+// app.use('/api/follow', followRoutes);
+
+
 
 // Error handling
 app.use((err, req, res, next) => {
