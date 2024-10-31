@@ -39,9 +39,12 @@ npm install
 ```env
 NODE_ENV=development
 PORT=3000
-MONGODB_URI=mongodb://localhost:27017/social-media
 JWT_SECRET=your_jwt_secret_key
 JWT_EXPIRES_IN=7d
+MONGODB_URI=mongodb://localhost:27017/blogforge
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100
+LOG_LEVEL=error
 ```
 
 4. Seed the database (optional):
