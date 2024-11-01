@@ -3,6 +3,7 @@ const request = require('supertest');
 const app = require('../server');
 const Post = require('../models/Post');
 const { generateToken } = require('../utils/auth');
+const User = require('../models/User');
 
 describe('Post Endpoints', () => {
   let token;

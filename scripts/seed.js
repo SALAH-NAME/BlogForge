@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // script/seed.js
 require('dotenv').config();
 const mongoose = require('mongoose');

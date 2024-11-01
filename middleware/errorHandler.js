@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // middleware/errorHandler.js
 const logger = require('../utils/logger');
 
